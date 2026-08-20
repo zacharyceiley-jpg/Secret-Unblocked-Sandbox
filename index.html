@@ -6,215 +6,354 @@
 <title>GitHub Character Game</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
+* {
+    box-sizing: border-box;
+}
 
-    html, body {
-        margin: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        font-family: Arial, Helvetica, sans-serif;
-        background: #111;
-        color: white;
-    }
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #111;
+    color: white;
+}
 
-    #game {
-        position: relative;
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
-        background:
-            linear-gradient(#18243b, #263d5d 60%, #1d5130 60%, #1d5130);
-    }
+#game {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background:
+        linear-gradient(
+            #18243b 0%,
+            #263d5d 60%,
+            #1d5130 60%,
+            #1d5130 100%
+        );
+}
 
-    /* Ground */
-    #ground {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 40%;
-        background:
-            repeating-linear-gradient(
-                45deg,
-                #205a34 0px,
-                #205a34 20px,
-                #1d5130 20px,
-                #1d5130 40px
-            );
-    }
+/* =========================
+   GROUND
+========================= */
 
-    /* Player */
-    #player {
-        position: absolute;
-        left: 50%;
-        bottom: 40%;
-        width: 70px;
-        height: 100px;
-        transform: translate(-50%, 0);
-        background: #fff;
-        border: 4px solid #000;
-        image-rendering: pixelated;
-        object-fit: contain;
-        z-index: 10;
-    }
+#ground {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40%;
 
-    #player.morphed {
-        background: transparent;
-        border: none;
-    }
+    background:
+        repeating-linear-gradient(
+            45deg,
+            #205a34 0px,
+            #205a34 20px,
+            #1d5130 20px,
+            #1d5130 40px
+        );
+}
 
-    /* Character menu */
+/* =========================
+   PLAYER
+========================= */
+
+#player {
+    position: absolute;
+
+    left: 50%;
+    bottom: 40%;
+
+    width: 70px;
+    height: 100px;
+
+    transform: translateX(-50%);
+
+    background: white;
+    border: 4px solid black;
+
+    object-fit: contain;
+    image-rendering: pixelated;
+
+    z-index: 10;
+}
+
+#player.morphed {
+    background: transparent;
+    border: none;
+}
+
+/* =========================
+   CHARACTER MENU
+========================= */
+
+#characterMenu {
+    position: absolute;
+
+    top: 20px;
+    left: 20px;
+
+    width: min(700px, calc(100vw - 40px));
+
+    padding: 15px;
+
+    background: rgba(0, 0, 0, .72);
+
+    border: 2px solid rgba(255, 255, 255, .2);
+
+    border-radius: 15px;
+
+    backdrop-filter: blur(8px);
+
+    z-index: 50;
+}
+
+#menuTitle {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+#characterSearch {
+    width: 100%;
+
+    padding: 11px 14px;
+
+    margin-bottom: 12px;
+
+    border: 2px solid rgba(255, 255, 255, .2);
+
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, .08);
+
+    color: white;
+
+    outline: none;
+
+    font-size: 15px;
+}
+
+#characterSearch::placeholder {
+    color: rgba(255, 255, 255, .55);
+}
+
+#characterSearch:focus {
+    border-color: #5ee7ff;
+
+    background: rgba(255, 255, 255, .12);
+}
+
+/* =========================
+   CHARACTERS
+========================= */
+
+#characters {
+    display: flex;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    max-height: 170px;
+
+    overflow-y: auto;
+}
+
+.character {
+    width: 90px;
+    height: 110px;
+
+    border: 2px solid rgba(255, 255, 255, .25);
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, .08);
+
+    color: white;
+
+    cursor: pointer;
+
+    padding: 7px;
+
+    text-align: center;
+
+    transition: .15s;
+}
+
+.character:hover {
+    transform: translateY(-3px);
+
+    background: rgba(255, 255, 255, .18);
+}
+
+.character.selected {
+    border-color: #5ee7ff;
+
+    box-shadow:
+        0 0 15px rgba(94, 231, 255, .5);
+}
+
+.character img {
+    width: 65px;
+    height: 65px;
+
+    object-fit: contain;
+
+    image-rendering: pixelated;
+
+    display: block;
+
+    margin: auto;
+}
+
+.characterName {
+    margin-top: 5px;
+
+    font-size: 13px;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+#status {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    padding: 20px 30px;
+
+    background: rgba(0, 0, 0, .8);
+
+    border-radius: 12px;
+
+    z-index: 100;
+
+    text-align: center;
+}
+
+#status.hidden {
+    display: none;
+}
+
+/* =========================
+   EQUIPPED CHARACTER
+========================= */
+
+#equipped {
+    position: absolute;
+
+    right: 20px;
+    top: 20px;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+    background: rgba(0, 0, 0, .65);
+
+    z-index: 30;
+}
+
+/* =========================
+   ANIMATION BAR
+========================= */
+
+#animationBar {
+    position: absolute;
+
+    bottom: 20px;
+    left: 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    z-index: 30;
+}
+
+.animationButton {
+    min-width: 130px;
+
+    padding: 10px 14px;
+
+    border: 2px solid rgba(255, 255, 255, .2);
+
+    border-radius: 9px;
+
+    background: rgba(0, 0, 0, .72);
+
+    color: white;
+
+    cursor: pointer;
+
+    text-align: left;
+}
+
+.animationButton:hover {
+    background: rgba(255, 255, 255, .2);
+}
+
+/* =========================
+   CONTROLS
+========================= */
+
+#controls {
+    position: absolute;
+
+    right: 20px;
+    bottom: 20px;
+
+    padding: 12px 16px;
+
+    border-radius: 10px;
+
+    background: rgba(0, 0, 0, .65);
+
+    font-size: 13px;
+
+    z-index: 30;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
     #characterMenu {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        width: min(700px, calc(100vw - 40px));
-        padding: 15px;
-        background: rgba(0,0,0,.72);
-        border: 2px solid rgba(255,255,255,.2);
-        border-radius: 15px;
-        backdrop-filter: blur(8px);
-        z-index: 50;
+        width: calc(100vw - 20px);
+
+        left: 10px;
+        top: 10px;
     }
 
-    #menuTitle {
-        font-size: 22px;
-        font-weight: bold;
-        margin-bottom: 12px;
+    #characterMenu {
+        padding: 10px;
     }
 
-    #characters {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        max-height: 170px;
-        overflow-y: auto;
-    }
-
-    .character {
-        width: 90px;
-        height: 110px;
-        border: 2px solid rgba(255,255,255,.25);
-        border-radius: 12px;
-        background: rgba(255,255,255,.08);
-        color: white;
-        cursor: pointer;
-        padding: 7px;
-        text-align: center;
-        transition: .15s;
-    }
-
-    .character:hover {
-        transform: translateY(-3px);
-        background: rgba(255,255,255,.18);
-    }
-
-    .character.selected {
-        border-color: #5ee7ff;
-        box-shadow: 0 0 15px rgba(94,231,255,.5);
-    }
-
-    .character img {
-        width: 65px;
-        height: 65px;
-        object-fit: contain;
-        image-rendering: pixelated;
-        display: block;
-        margin: auto;
-    }
-
-    .characterName {
-        margin-top: 5px;
-        font-size: 13px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-
-    /* Loading/error */
-    #status {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 20px 30px;
-        background: rgba(0,0,0,.8);
-        border-radius: 12px;
-        z-index: 100;
-        text-align: center;
-    }
-
-    #status.hidden {
+    #controls {
         display: none;
     }
-
-    /* Animation controls */
-    #animationBar {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 7px;
-        z-index: 30;
-    }
-
-    .animationButton {
-        min-width: 130px;
-        padding: 10px 14px;
-        border: 2px solid rgba(255,255,255,.2);
-        border-radius: 9px;
-        background: rgba(0,0,0,.72);
-        color: white;
-        cursor: pointer;
-        text-align: left;
-    }
-
-    .animationButton:hover {
-        background: rgba(255,255,255,.2);
-    }
-
-    /* Character name */
-    #equipped {
-        position: absolute;
-        right: 20px;
-        top: 20px;
-        padding: 10px 15px;
-        border-radius: 10px;
-        background: rgba(0,0,0,.65);
-        z-index: 30;
-    }
-
-    /* Controls */
-    #controls {
-        position: absolute;
-        right: 20px;
-        bottom: 20px;
-        padding: 12px 16px;
-        border-radius: 10px;
-        background: rgba(0,0,0,.65);
-        font-size: 13px;
-        z-index: 30;
-    }
-
-    @media (max-width: 600px) {
-        #characterMenu {
-            width: calc(100vw - 20px);
-            left: 10px;
-            top: 10px;
-        }
-
-        #characterMenu {
-            padding: 10px;
-        }
-
-        #controls {
-            display: none;
-        }
-    }
+}
 </style>
 </head>
 
@@ -224,23 +363,44 @@
 
     <div id="ground"></div>
 
-    <img id="player" alt="Player">
+    <!-- PLAYER -->
+    <img
+        id="player"
+        alt="Player"
+    >
 
+    <!-- CHARACTER MENU -->
     <div id="characterMenu">
-        <div id="menuTitle">Characters</div>
+
+        <div id="menuTitle">
+            Characters
+        </div>
+
+        <input
+            id="characterSearch"
+            type="text"
+            placeholder="Search characters..."
+            autocomplete="off"
+        >
+
         <div id="characters"></div>
+
     </div>
 
+    <!-- EQUIPPED -->
     <div id="equipped">
         Character: None
     </div>
 
+    <!-- ANIMATIONS -->
     <div id="animationBar"></div>
 
+    <!-- CONTROLS -->
     <div id="controls">
         WASD / Arrow Keys — Move
     </div>
 
+    <!-- LOADING -->
     <div id="status">
         Searching repository...
     </div>
@@ -250,22 +410,22 @@
 <script>
 
 /* =========================================================
-   GITHUB CONFIGURATION
-   ========================================================= */
+   CONFIGURATION
+========================================================= */
 
 const GAME_CONFIG = {
 
     /*
-     * If this game is hosted at:
+     * Leave these blank when using GitHub Pages.
      *
-     * https://YOURNAME.github.io/YOURREPO/
+     * Example:
      *
-     * the game automatically detects:
+     * https://zac123.github.io/MyGame/
      *
-     * owner = YOURNAME
-     * repo  = YOURREPO
+     * will automatically detect:
      *
-     * You normally don't need to change anything.
+     * owner = zac123
+     * repo  = MyGame
      */
 
     owner: "",
@@ -277,67 +437,99 @@ const GAME_CONFIG = {
 
 
 /* =========================================================
-   GAME VARIABLES
-   ========================================================= */
+   VARIABLES
+========================================================= */
 
 let characters = [];
+
 let equippedCharacter = null;
 
-let playerX = window.innerWidth / 2;
-let playerY = 0;
+let playerX =
+    window.innerWidth / 2;
+
+const player =
+    document.getElementById("player");
+
+const characterContainer =
+    document.getElementById("characters");
+
+const animationBar =
+    document.getElementById("animationBar");
+
+const statusBox =
+    document.getElementById("status");
+
+const equippedLabel =
+    document.getElementById("equipped");
+
+const characterSearch =
+    document.getElementById("characterSearch");
 
 const keys = {};
 
-const player = document.getElementById("player");
-const characterContainer = document.getElementById("characters");
-const animationBar = document.getElementById("animationBar");
-const statusBox = document.getElementById("status");
-const equippedLabel = document.getElementById("equipped");
-
 
 /* =========================================================
-   DETECT GITHUB PAGES REPOSITORY
-   ========================================================= */
+   DETECT REPOSITORY
+========================================================= */
 
 function detectRepository() {
 
-    if (GAME_CONFIG.owner && GAME_CONFIG.repo) {
+    if (
+        GAME_CONFIG.owner &&
+        GAME_CONFIG.repo
+    ) {
+
         return {
+
             owner: GAME_CONFIG.owner,
+
             repo: GAME_CONFIG.repo
+
         };
+
     }
 
-    const hostname = window.location.hostname;
+    const hostname =
+        window.location.hostname;
 
     /*
+     * GitHub Pages:
+     *
      * username.github.io/repository
      */
 
-    if (hostname.endsWith(".github.io")) {
+    if (
+        hostname.endsWith(".github.io")
+    ) {
 
-        const owner = hostname.split(".")[0];
+        const owner =
+            hostname.split(".")[0];
 
-        const parts = window.location.pathname
-            .split("/")
-            .filter(Boolean);
+        const parts =
+            window.location.pathname
+                .split("/")
+                .filter(Boolean);
 
         if (parts.length > 0) {
 
             return {
+
                 owner: owner,
+
                 repo: parts[0]
+
             };
 
         }
 
-        /*
-         * If the repository itself is username.github.io
-         */
         return {
+
             owner: owner,
+
             repo: owner + ".github.io"
+
         };
+
     }
 
     return null;
@@ -346,20 +538,23 @@ function detectRepository() {
 
 /* =========================================================
    GITHUB API
-   ========================================================= */
+========================================================= */
 
 async function githubAPI(path) {
 
-    const response = await fetch(
-        "https://api.github.com/repos/" +
-        path
-    );
+    const response =
+        await fetch(
+            "https://api.github.com/repos/" +
+            path
+        );
 
     if (!response.ok) {
+
         throw new Error(
             "GitHub API error: " +
             response.status
         );
+
     }
 
     return response.json();
@@ -367,81 +562,126 @@ async function githubAPI(path) {
 
 
 /* =========================================================
-   FIND CHARACTER FOLDERS
-   ========================================================= */
+   LOAD CHARACTERS
+========================================================= */
 
 async function loadCharacters() {
 
-    const repository = detectRepository();
+    const repository =
+        detectRepository();
 
     if (!repository) {
 
         showError(
             "Could not detect the GitHub repository.<br><br>" +
+
             "Set GAME_CONFIG.owner and GAME_CONFIG.repo."
         );
 
         return;
     }
 
-    console.log(
-        "Loading:",
-        repository.owner,
-        repository.repo
-    );
-
     try {
 
-        const root = await githubAPI(
-            `${repository.owner}/${repository.repo}/contents?ref=${GAME_CONFIG.branch}`
-        );
+        const root =
+            await githubAPI(
 
-        const folders = root.filter(
-            item => item.type === "dir"
-        );
+                `${repository.owner}/${repository.repo}/contents?ref=${GAME_CONFIG.branch}`
+
+            );
+
+        /*
+         * Every folder is potentially
+         * a character.
+         */
+
+        const folders =
+            root.filter(
+                item =>
+                    item.type === "dir"
+            );
+
 
         for (const folder of folders) {
 
             try {
 
-                const files = await githubAPI(
-                    `${repository.owner}/${repository.repo}/contents/${encodeURIComponent(folder.name)}?ref=${GAME_CONFIG.branch}`
-                );
+                const files =
+                    await githubAPI(
 
-                const pngs = files.filter(
-                    file =>
-                        file.type === "file" &&
-                        file.name.toLowerCase().endsWith(".png")
-                );
+                        `${repository.owner}/${repository.repo}/contents/${encodeURIComponent(folder.name)}?ref=${GAME_CONFIG.branch}`
 
-                const icon = pngs.find(
-                    file => file.name.toLowerCase() === "icon.png"
-                );
+                    );
 
-                const base = pngs.find(
-                    file => file.name.toLowerCase() === "base.png"
-                );
 
                 /*
-                 * A folder is only a character if it
-                 * contains icon.png and base.png.
+                 * Find PNG files.
+                 */
+
+                const pngs =
+                    files.filter(
+                        file =>
+                            file.type === "file" &&
+                            file.name
+                                .toLowerCase()
+                                .endsWith(".png")
+                    );
+
+
+                /*
+                 * Required files.
+                 */
+
+                const icon =
+                    pngs.find(
+                        file =>
+                            file.name
+                                .toLowerCase() ===
+                            "icon.png"
+                    );
+
+                const base =
+                    pngs.find(
+                        file =>
+                            file.name
+                                .toLowerCase() ===
+                            "base.png"
+                    );
+
+
+                /*
+                 * Folder isn't a character
+                 * unless both files exist.
                  */
 
                 if (!icon || !base) {
+
                     continue;
+
                 }
 
-                const animations = pngs.filter(
-                    file => {
-                        const name =
-                            file.name.toLowerCase();
 
-                        return (
-                            name !== "icon.png" &&
-                            name !== "base.png"
-                        );
-                    }
-                );
+                /*
+                 * Everything else is
+                 * considered an animation.
+                 */
+
+                const animations =
+                    pngs.filter(
+                        file => {
+
+                            const name =
+                                file.name
+                                    .toLowerCase();
+
+                            return (
+                                name !== "icon.png" &&
+                                name !== "base.png"
+                            );
+
+                        }
+                    );
+
 
                 characters.push({
 
@@ -453,38 +693,57 @@ async function loadCharacters() {
 
                     base: base.download_url,
 
-                    animations: animations.map(
-                        file => ({
-                            name: file.name
-                                .replace(/\.png$/i, ""),
-                            url: file.download_url
-                        })
-                    )
+                    animations:
+                        animations.map(
+                            file => ({
+
+                                name:
+                                    file.name
+                                        .replace(
+                                            /\.png$/i,
+                                            ""
+                                        ),
+
+                                url:
+                                    file.download_url
+
+                            })
+                        )
 
                 });
 
             } catch (error) {
 
                 console.warn(
-                    "Couldn't load character:",
+                    "Couldn't load:",
                     folder.name,
                     error
                 );
 
             }
+
         }
+
 
         hideStatus();
 
         renderCharacters();
 
-        if (characters.length === 0) {
+
+        if (
+            characters.length === 0
+        ) {
 
             showError(
+
                 "No characters found.<br><br>" +
-                "Each character folder needs:<br>" +
+
+                "A character folder needs:<br><br>" +
+
                 "<b>icon.png</b><br>" +
+
                 "<b>base.png</b>"
+
             );
 
         }
@@ -494,17 +753,21 @@ async function loadCharacters() {
         console.error(error);
 
         showError(
+
             "Couldn't access the GitHub repository.<br><br>" +
+
             error.message
+
         );
 
     }
+
 }
 
 
 /* =========================================================
-   CHARACTER GUI
-   ========================================================= */
+   RENDER CHARACTER BUTTONS
+========================================================= */
 
 function renderCharacters() {
 
@@ -516,49 +779,118 @@ function renderCharacters() {
             const button =
                 document.createElement("button");
 
-            button.className = "character";
+            button.className =
+                "character";
+
 
             button.innerHTML = `
-                <img src="${character.icon}"
-                     alt="${escapeHTML(character.name)}">
+
+                <img
+                    src="${character.icon}"
+                    alt="${escapeHTML(character.name)}"
+                >
+
                 <div class="characterName">
+
                     ${escapeHTML(character.name)}
+
                 </div>
+
             `;
 
-            button.onclick = () => {
 
-                equipCharacter(index);
+            button.onclick =
+                () => {
 
-            };
+                    equipCharacter(index);
 
-            characterContainer.appendChild(button);
+                };
+
+
+            characterContainer.appendChild(
+                button
+            );
 
         }
     );
+
 }
 
 
 /* =========================================================
+   SEARCH
+========================================================= */
+
+characterSearch.addEventListener(
+    "input",
+    () => {
+
+        const search =
+            characterSearch.value
+                .trim()
+                .toLowerCase();
+
+
+        document
+            .querySelectorAll(".character")
+            .forEach(
+                (button, index) => {
+
+                    const character =
+                        characters[index];
+
+
+                    const matches =
+                        character.name
+                            .toLowerCase()
+                            .includes(search);
+
+
+                    button.style.display =
+                        matches
+                            ? ""
+                            : "none";
+
+                }
+            );
+
+    }
+);
+
+
+/* =========================================================
    EQUIP CHARACTER
-   ========================================================= */
+========================================================= */
 
 function equipCharacter(index) {
 
-    equippedCharacter = characters[index];
+    equippedCharacter =
+        characters[index];
 
-    player.src = equippedCharacter.base;
 
-    player.classList.add("morphed");
+    /*
+     * Change player into base.png
+     */
+
+    player.src =
+        equippedCharacter.base;
+
+
+    player.classList.add(
+        "morphed"
+    );
+
 
     equippedLabel.textContent =
         "Character: " +
         equippedCharacter.name;
 
+
     renderAnimations();
 
+
     /*
-     * Mark selected icon
+     * Highlight selected character.
      */
 
     document
@@ -578,18 +910,24 @@ function equipCharacter(index) {
 
 
 /* =========================================================
-   ANIMATIONS
-   ========================================================= */
+   ANIMATION BUTTONS
+========================================================= */
 
 function renderAnimations() {
 
     animationBar.innerHTML = "";
 
+
     if (!equippedCharacter) {
+
         return;
+
     }
 
-    if (equippedCharacter.animations.length === 0) {
+
+    if (
+        equippedCharacter.animations.length === 0
+    ) {
 
         const text =
             document.createElement("div");
@@ -597,10 +935,14 @@ function renderAnimations() {
         text.textContent =
             "No animations";
 
-        animationBar.appendChild(text);
+        animationBar.appendChild(
+            text
+        );
 
         return;
+
     }
+
 
     equippedCharacter.animations.forEach(
         animation => {
@@ -608,79 +950,97 @@ function renderAnimations() {
             const button =
                 document.createElement("button");
 
+
             button.className =
                 "animationButton";
+
 
             button.textContent =
                 animation.name;
 
-            button.onclick = () => {
 
-                playAnimation(animation);
+            button.onclick =
+                () => {
 
-            };
+                    playAnimation(
+                        animation
+                    );
 
-            animationBar.appendChild(button);
+                };
+
+
+            animationBar.appendChild(
+                button
+            );
 
         }
     );
+
 }
 
 
 /* =========================================================
    PLAY ANIMATION
-   ========================================================= */
+========================================================= */
 
 function playAnimation(animation) {
 
     if (!equippedCharacter) {
+
         return;
+
     }
 
-    /*
-     * Save the current base image.
-     */
 
     const baseImage =
         equippedCharacter.base;
 
-    /*
-     * Display the animation PNG.
-     */
-
-    player.src = animation.url;
 
     /*
-     * PNG animations are treated as single images.
-     *
-     * After a short time the player returns to base.
+     * Show animation PNG.
      */
 
-    setTimeout(() => {
+    player.src =
+        animation.url;
 
-        if (
-            equippedCharacter &&
-            player.src === animation.url
-        ) {
 
-            player.src = baseImage;
+    /*
+     * Return to base after
+     * a short period.
+     */
 
-        }
+    setTimeout(
+        () => {
 
-    }, 700);
+            if (
+                equippedCharacter &&
+                player.src === animation.url
+            ) {
+
+                player.src =
+                    baseImage;
+
+            }
+
+        },
+        700
+    );
 
 }
 
 
 /* =========================================================
-   PLAYER MOVEMENT
-   ========================================================= */
+   KEYBOARD
+========================================================= */
 
 document.addEventListener(
     "keydown",
     event => {
 
-        keys[event.key.toLowerCase()] = true;
+        keys[
+            event.key.toLowerCase()
+        ] = true;
+
 
         if (
             [
@@ -689,7 +1049,9 @@ document.addEventListener(
                 "arrowleft",
                 "arrowright",
                 " "
-            ].includes(event.key.toLowerCase())
+            ].includes(
+                event.key.toLowerCase()
+            )
         ) {
 
             event.preventDefault();
@@ -704,15 +1066,22 @@ document.addEventListener(
     "keyup",
     event => {
 
-        keys[event.key.toLowerCase()] = false;
+        keys[
+            event.key.toLowerCase()
+        ] = false;
 
     }
 );
 
 
+/* =========================================================
+   GAME LOOP
+========================================================= */
+
 function gameLoop() {
 
     const speed = 5;
+
 
     if (
         keys["a"] ||
@@ -723,6 +1092,7 @@ function gameLoop() {
 
     }
 
+
     if (
         keys["d"] ||
         keys["arrowright"]
@@ -732,42 +1102,53 @@ function gameLoop() {
 
     }
 
+
     /*
-     * Keep player inside screen.
+     * Keep player on screen.
      */
 
-    playerX = Math.max(
-        35,
-        Math.min(
-            window.innerWidth - 35,
-            playerX
-        )
-    );
+    playerX =
+        Math.max(
+            35,
+            Math.min(
+                window.innerWidth - 35,
+                playerX
+            )
+        );
+
 
     player.style.left =
         playerX + "px";
 
-    requestAnimationFrame(gameLoop);
+
+    requestAnimationFrame(
+        gameLoop
+    );
 
 }
 
 
 /* =========================================================
    UTILITIES
-   ========================================================= */
+========================================================= */
 
 function hideStatus() {
 
-    statusBox.classList.add("hidden");
+    statusBox.classList.add(
+        "hidden"
+    );
 
 }
 
 
 function showError(message) {
 
-    statusBox.innerHTML = message;
+    statusBox.innerHTML =
+        message;
 
-    statusBox.classList.remove("hidden");
+    statusBox.classList.remove(
+        "hidden"
+    );
 
 }
 
@@ -775,20 +1156,36 @@ function showError(message) {
 function escapeHTML(text) {
 
     return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
 
 /* =========================================================
-   START GAME
-   ========================================================= */
+   START
+========================================================= */
 
 loadCharacters();
+
 gameLoop();
 
 </script>
